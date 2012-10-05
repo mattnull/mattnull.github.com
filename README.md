@@ -1,4 +1,2 @@
-mattnull.github.com
-===================
-
-My site
+mattnull.com
+------------
