@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+	 <script src="raphael.min.js"></script>
+	 <style>
+	 body{background: #000000;font-family: Helvetica;color:#fff;}
+	 	#scrubber{
+
+	 	}
+	 	path{z-index: 2;position: absolute;}
+	 	#track{z-index: 0;}
+/*	 	#scrubber-container, circle{
+	 		background:#fff;
+	 		border:1px solid #D9D9D9;
+	 		border-radius: 200px;
+	 		box-shadow: inset 7px 1px 22px gray;
+	 		height:200px;
+	 		position: relative;
+	 		width:200px;
+	 		}
+	 	#scrubber-inner{
+	 		background:#0F0F0F;
+	 		border:1px solid #D9D9D9;
+	 		border-radius:75px;
+	 		height:100px;
+	 		margin:0 auto;
+	 		position: relative;
+	 		top:50px;
+	 		width:100px;
+	 	}
+
+	 	#pink-bar{
+	 		background:#D300EB;
+	 		height:50px;
+	 		position: absolute;
+	 		width:100px;
+	 		-webkit-transform: rotate(-30deg);
+	 	}*/
+
+	 </style>
+	</head>
+	<body>
+		<div id="scrubber"></div>
+<script>
+(function(window, document, undefined){
+
+	window.onload = function () {
+
+		var canvasWidth = 300;
+		var months = [
+			'January',
+			'February',
+			'March',
+			'April',
+			'May',
+			'June',
+			'July',
+			'August',
+			'September',
+			'October',
+			'November',
+			'December'
+		];
+
+	    var canvasHeight = 300;
+	    var strokeWidth = 70;
+	    var paper = Raphael("scrubber", canvasWidth, canvasHeight),
+	        R = 100;
+	    
+	    paper.customAttributes.arc = function (value, total, R) {
+	        var alpha = 360 / total * value,
+	            a = (90 - alpha) * Math.PI / 180,
+	            x = (canvasWidth / 2) + R * Math.cos(a),
+	            y = (canvasHeight / 2) - R * Math.sin(a),
+	            path;
+
+	        if (total == value) {
+	            path = [["M", canvasWidth / 2, canvasHeight / 2 - R], ["A", R, R, 0, 1, 1, canvasWidth / 2, canvasHeight / 2 - R]];
+	        } else {
+	            path = [["M", canvasWidth / 2, canvasHeight / 2 - R], ["A", R, R, 0, +(alpha > 180), 1, x, y]];
+	        }
+	    
+	        return {path: path};
+	    };
+
+	    var track = paper.path().attr({stroke: "#FFFFFF", "stroke-width": strokeWidth});
+	    var purple = paper.path().attr({stroke: "#9E00FD", "stroke-width": strokeWidth});  
+	   	var pink = paper.path().attr({stroke: "#D300EB", "stroke-width": strokeWidth});  
+	    var canvasPosition = $('#scrubber svg').offset();
+	    console.log(canvasPosition.top)
+	    var centerX = (canvasWidth - canvasPosition.left) / 2;
+		var centerY = (canvasHeight + canvasPosition.top) / 2;
+	    var angle = 0;
+	    var d = new Date();
+	    var hours = d.getHours();
+	    var minutes = d.getMinutes();
+
+	    var draw = function(el, e){
+	    	var posX = e.clientX;
+			var posY = e.clientY;
+			var deltaX = posX - centerX;
+			var deltaY = posY - centerY;
+
+			angle = (Math.atan2(deltaY, deltaX) * 180 / Math.PI) + 90;
+
+			var val = (angle < 0) ? 360 + angle : angle;
+
+			console.log('x', posX,'y',posY, 'angle', angle, 'value', val)
+			
+			if(val == 0 || angle == 359) return;
+			
+			el.animate({arc: [val, 360, R]});
+			
+			//time
+			if(minutes < 60){
+				minutes++;
+			}
+			else{
+				hours++;
+				minutes = 0;
+			}
+
+			time.attr({text: hours + ':' + minutes});
+	    };
+
+        var start = function (x, y, e) {
+			draw(this, e);
+        },
+        move = function (dx, dy, x, y, e) {
+			draw(this, e);
+        },
+        up = function (dx, dy) {};
+
+        purple.animate({arc: [180, 360, R]}).drag(move, start, up);
+        pink.animate({arc: [130, 360, R]}).drag(move, start, up);
+        track.animate({arc: [359, 360, R]}).node.id = 'track';
+
+        var date = paper.text(centerX, centerY - R/1.5, d.getDate() + ' '+ months[d.getMonth()] + ' '+ d.getFullYear() + "\n")
+        .attr({
+        	'fill' : '#ffffff',
+        	'font-size' : '14px'
+        });
+
+        var time = paper.text(centerX, centerY - R/3, hours + ':' + minutes).attr({
+        	'fill' : '#ffffff',
+        	'font-size' : '40px'
+        });
+
+
+        // $('#scrubber').append(t);
+        // $(window).on('mousemove', function(e){
+        // 	console.log(e.pageX, e.pageY)
+        // })
+	};
+             
+})(window, document);
+</script>
+	</body>
+</html>
