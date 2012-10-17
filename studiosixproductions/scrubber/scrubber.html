@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 	 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 	 <script src="raphael.min.js"></script>
 	 <style>
@@ -48,6 +49,7 @@
 	window.onload = function () {
 
 		var canvasWidth = 300;
+		var canvasHeight = 300;
 		var months = [
 			'January',
 			'February',
@@ -63,7 +65,6 @@
 			'December'
 		];
 
-	    var canvasHeight = 300;
 	    var strokeWidth = 70;
 	    var paper = Raphael("scrubber", canvasWidth, canvasHeight),
 	        R = 100;
