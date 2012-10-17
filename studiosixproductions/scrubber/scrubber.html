@@ -89,7 +89,6 @@
 	    var purple = paper.path().attr({stroke: "#9E00FD", "stroke-width": strokeWidth});  
 	   	var pink = paper.path().attr({stroke: "#D300EB", "stroke-width": strokeWidth});  
 	    var canvasPosition = $('#scrubber svg').offset();
-	    console.log(canvasPosition.top)
 	    var centerX = (canvasWidth - canvasPosition.left) / 2;
 		var centerY = (canvasHeight + canvasPosition.top) / 2;
 	    var angle = 0;
@@ -97,9 +96,9 @@
 	    var hours = d.getHours();
 	    var minutes = d.getMinutes();
 
-	    var draw = function(el, e){
-	    	var posX = e.clientX;
-			var posY = e.clientY;
+	    var draw = function(el, x, y){
+	    	var posX = x;
+			var posY = y;
 			var deltaX = posX - centerX;
 			var deltaY = posY - centerY;
 
@@ -126,15 +125,15 @@
 	    };
 
         var start = function (x, y, e) {
-			draw(this, e);
+			draw(this, e.clientX, e.clientY);
         },
         move = function (dx, dy, x, y, e) {
-			draw(this, e);
+			draw(this, e.clientX, e.clientY);
         },
         up = function (dx, dy) {};
 
-        purple.animate({arc: [180, 360, R]}).drag(move, start, up);
-        pink.animate({arc: [130, 360, R]}).drag(move, start, up);
+        purple.animate({arc: [180, 360, R]}).drag(move, start, up).node.id = "purple";
+        pink.animate({arc: [130, 360, R]}).drag(move, start, up).node.id = "pink";
         track.animate({arc: [359, 360, R]}).node.id = 'track';
 
         var date = paper.text(centerX, centerY - 20, d.getDate() + ' '+ months[d.getMonth()] + ' '+ d.getFullYear() + "\n")
@@ -147,6 +146,20 @@
         	'fill' : '#ffffff',
         	'font-size' : '40px'
         });
+
+		document.getElementById('purple').addEventListener('touchmove', function(event) {
+		    event.preventDefault();
+		    var touch = event.touches[0];
+		    console.log("Touch x:" + touch.pageX + ", y:" + touch.pageY);
+		    draw(purple, touch.pageX, touch.pageY);
+		}, false);
+
+		document.getElementById('pink').addEventListener('touchmove', function(event) {
+		    event.preventDefault();
+		    var touch = event.touches[0];
+		    console.log("Touch x:" + touch.pageX + ", y:" + touch.pageY);
+		    draw(pink, touch.pageX, touch.pageY);
+		}, false);
 
 
         // $('#scrubber').append(t);
