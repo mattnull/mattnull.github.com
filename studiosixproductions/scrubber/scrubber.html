@@ -90,9 +90,9 @@
 	        return {path: path};
 	    };
 
-	    var track = paper.path().attr({stroke: "#FFFFFF", "stroke-width": strokeWidth});
-	    var purple = paper.path().attr({stroke: "#9E00FD", "stroke-width": strokeWidth});  
-	   	var pink = paper.path().attr({stroke: "#D300EB", "stroke-width": strokeWidth});  
+	    var track = paper.path().attr({stroke: "#FFFFFF", "stroke-width": strokeWidth}).animate({arc: [359, 360, R]});
+	    var purple = paper.path().attr({stroke: "#9E00FD", "stroke-width": strokeWidth}).animate({arc: [180, 360, R]}); 
+	   	var pink = paper.path().attr({stroke: "#D300EB", "stroke-width": strokeWidth}).animate({arc: [130, 360, R]}); 
 	    var canvasPosition = $('#scrubber svg').offset();
 	    var centerX = (canvasWidth - canvasPosition.left) / 2;
 		var centerY = (canvasHeight + canvasPosition.top) / 2;
@@ -128,7 +128,12 @@
 
 			time.attr({text: hours + ':' + minutes});
 	    };
-	    
+
+	    //setup IDs
+	    track.node.id = "track";
+	    purple.node.id = "purple"
+	    pink.node.id = "pink"
+
         var start = function (x, y, e) {
 			draw(this, e.clientX, e.clientY);
         },
@@ -164,9 +169,8 @@
 			}, false);
 		}
 		else{
-			purple.animate({arc: [180, 360, R]}).drag(move, start, up).node.id = "purple";
-			pink.animate({arc: [130, 360, R]}).drag(move, start, up).node.id = "pink";
-			track.animate({arc: [359, 360, R]}).node.id = 'track';
+			purple.drag(move, start, up);
+			pink.drag(move, start, up);
 		}
 
         // $('#scrubber').append(t);
