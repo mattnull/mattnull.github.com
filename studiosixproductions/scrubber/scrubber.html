@@ -132,8 +132,8 @@
         },
         up = function (dx, dy) {};
 
-        purple.animate({arc: [180, 360, R]}).drag(move, start, up).node.id = "purple";
-        pink.animate({arc: [130, 360, R]}).drag(move, start, up).node.id = "pink";
+        purple.animate({arc: [180, 360, R]}).node.id = "purple";
+        pink.animate({arc: [130, 360, R]}).node.id = "pink";
         track.animate({arc: [359, 360, R]}).node.id = 'track';
 
         var date = paper.text(centerX, centerY - 20, d.getDate() + ' '+ months[d.getMonth()] + ' '+ d.getFullYear() + "\n")
