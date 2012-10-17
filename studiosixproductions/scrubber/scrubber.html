@@ -136,13 +136,13 @@
         pink.animate({arc: [130, 360, R]}).drag(move, start, up);
         track.animate({arc: [359, 360, R]}).node.id = 'track';
 
-        var date = paper.text(centerX, centerY - R/1.5, d.getDate() + ' '+ months[d.getMonth()] + ' '+ d.getFullYear() + "\n")
+        var date = paper.text(centerX, centerY - 20, d.getDate() + ' '+ months[d.getMonth()] + ' '+ d.getFullYear() + "\n")
         .attr({
         	'fill' : '#ffffff',
         	'font-size' : '14px'
         });
 
-        var time = paper.text(centerX, centerY - R/3, hours + ':' + minutes).attr({
+        var time = paper.text(centerX, centerY + 15, hours + ':' + minutes).attr({
         	'fill' : '#ffffff',
         	'font-size' : '40px'
         });
