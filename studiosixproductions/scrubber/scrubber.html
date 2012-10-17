@@ -45,6 +45,11 @@
 		<div id="scrubber"></div>
 <script>
 (function(window, document, undefined){
+	function isTouchDevice() {
+		var el = document.createElement('div');
+		el.setAttribute('ongesturestart', 'return;');
+		return typeof el.ongesturestart === "function";
+	}
 
 	window.onload = function () {
 
@@ -123,7 +128,7 @@
 
 			time.attr({text: hours + ':' + minutes});
 	    };
-
+	    
         var start = function (x, y, e) {
 			draw(this, e.clientX, e.clientY);
         },
@@ -131,10 +136,6 @@
 			draw(this, e.clientX, e.clientY);
         },
         up = function (dx, dy) {};
-
-        purple.animate({arc: [180, 360, R]}).node.id = "purple";
-        pink.animate({arc: [130, 360, R]}).node.id = "pink";
-        track.animate({arc: [359, 360, R]}).node.id = 'track';
 
         var date = paper.text(centerX, centerY - 20, d.getDate() + ' '+ months[d.getMonth()] + ' '+ d.getFullYear() + "\n")
         .attr({
@@ -147,20 +148,26 @@
         	'font-size' : '40px'
         });
 
-		document.getElementById('purple').addEventListener('touchmove', function(event) {
-		    event.preventDefault();
-		    var touch = event.touches[0];
-		    console.log("Touch x:" + touch.pageX + ", y:" + touch.pageY);
-		    draw(purple, touch.pageX, touch.pageY);
-		}, false);
+        if(isTouchDevice()){
+			document.getElementById('purple').addEventListener('touchmove', function(event) {
+			    event.preventDefault();
+			    var touch = event.touches[0];
+			    console.log("Touch x:" + touch.pageX + ", y:" + touch.pageY);
+			    draw(purple, touch.pageX, touch.pageY);
+			}, false);
 
-		document.getElementById('pink').addEventListener('touchmove', function(event) {
-		    event.preventDefault();
-		    var touch = event.touches[0];
-		    console.log("Touch x:" + touch.pageX + ", y:" + touch.pageY);
-		    draw(pink, touch.pageX, touch.pageY);
-		}, false);
-
+			document.getElementById('pink').addEventListener('touchmove', function(event) {
+			    event.preventDefault();
+			    var touch = event.touches[0];
+			    console.log("Touch x:" + touch.pageX + ", y:" + touch.pageY);
+			    draw(pink, touch.pageX, touch.pageY);
+			}, false);
+		}
+		else{
+			purple.animate({arc: [180, 360, R]}).drag(move, start, up).node.id = "purple";
+			pink.animate({arc: [130, 360, R]}).drag(move, start, up).node.id = "pink";
+			track.animate({arc: [359, 360, R]}).node.id = 'track';
+		}
 
         // $('#scrubber').append(t);
         // $(window).on('mousemove', function(e){
