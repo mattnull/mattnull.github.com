@@ -38,10 +38,11 @@
 		var canvasHeight = 260;
 		var R = 95;
 		var strokeWidth = 60;
+		var trackWidth = strokeWidth + 5;
 		var paper = Raphael("scrubber-container", canvasWidth, canvasHeight);
 		paper.addDropShadowFilter(2, -2, -2, 0.5);
 
-		var background = paper.image("center-bg.png", 65, 65, 130, 130);
+		var background = paper.image("center-bg.png", trackWidth, trackWidth, canvasWidth / 2, canvasHeight / 2);
 		
 		//custom attributes
 	    paper.customAttributes.arc = function (value, total, R) {
@@ -52,7 +53,7 @@
 	            path;
 
 			path = [["M", canvasWidth / 2, canvasHeight / 2 - R], ["A", R, R, 0, +(alpha > 180), 1, x, y]];	
-			
+
 	        return {path: path};
 	    };
 
@@ -72,7 +73,7 @@
 		];
 		
 		//Paths
-	    var track = paper.path().attr({stroke: '#FFFFFF', 'stroke-width': strokeWidth + 5, 'stroke-linecap' : 'round'}).animate({arc: [360, 360, R]});
+	    var track = paper.path().attr({stroke: '#FFFFFF', 'stroke-width': trackWidth, 'stroke-linecap' : 'round'}).animate({arc: [360, 360, R]});
 		// track.node.setAttribute("class", "dropshadow");
 
 	    var purple = paper.path().attr({stroke: '#9E00FD', 'stroke-width': strokeWidth, 'stroke-linecap' : 'round'}).animate({arc: [90, 360, R]}); 
@@ -176,7 +177,7 @@
 	    	clearInterval(interval);
 	    	//END DUMMY CODE
 	    	R = 95;	
-	    	track.attr({stroke: '#FFFFFF', 'stroke-width': strokeWidth + 5}).animate({arc: [359, 360, R]});
+	    	track.attr({stroke: '#FFFFFF', 'stroke-width': trackWidth}).animate({arc: [359, 360, R]});
 	   	 	purple.attr({stroke: '#9E00FD', 'stroke-width': strokeWidth, 'stroke-linecap' : 'round'}).animate({arc: [purple.attrs.arc[0], 360, R]}); 
 	   		pink.attr({stroke: '#D300EB', 'stroke-width': strokeWidth, 'stroke-linecap' : 'round'}).animate({arc: [pink.attrs.arc[0], 360, R]});
 
