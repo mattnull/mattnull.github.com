@@ -15,6 +15,7 @@
 	</head>
 	<body>
 		<div id="scrubber-container"></div>
+
 		<h3>Velocity : <span id="velocity">0</span></h3>
 <script>
 (function(window, document, undefined){
@@ -25,7 +26,7 @@
 		return typeof el.ongesturestart === "function";
 	}
 
-	window.onload = function () {
+	window.onload = function() {
 
 		var paper = Raphael("scrubber-container", canvasWidth, canvasHeight);
 		var background = paper.image("center-bg.png", 65, 65, 130, 130);
@@ -81,11 +82,13 @@
 	   	var date = paper.text(centerX, centerY - 25, d.getDate() + ' '+ months[d.getMonth()] + ' '+ d.getFullYear() + "\n")
         .attr({
         	'fill' : '#ffffff',
-        	'font-size' : '12px'
+        	'font-size' : '12px',
+        	'cursor' : 'pointer'
         });
         var time = paper.text(centerX + 5, centerY + 10, hours + ':' + minutes).attr({
         	'fill' : '#ffffff',
-        	'font-size' : '38px'
+        	'font-size' : '38px',
+        	'cursor' : 'pointer'
         });
 
 
@@ -94,7 +97,6 @@
 		var lastTime = (new Date()).getTime();
 		var distance = 0;
 	    
-
 	   	//setup IDs
 	    track.node.id = "track";
 	    purple.node.id = "purple";
@@ -147,7 +149,19 @@
 			time.attr({text: hours + ':' + minutes});
 	    };
 
+	    var minimize = function(){
+	    	R = 65;
+	    	track.attr({stroke: '#FFFFFF', 'stroke-width': 10}).animate({arc: [359, 360, R]});
+	   	 	purple.attr({stroke: '#9E00FD', 'stroke-width': 10, 'stroke-linecap' : 'round'}).animate({arc: [purple.attrs.arc[0], 360, R]}); 
+	   		pink.attr({stroke: '#D300EB', 'stroke-width': 10, 'stroke-linecap' : 'round'}).animate({arc: [pink.attrs.arc[0], 360, R]});
+	    };
 
+	    var maximize = function(){
+	    	R = 95;	
+	    	track.attr({stroke: '#FFFFFF', 'stroke-width': strokeWidth}).animate({arc: [359, 360, R]});
+	   	 	purple.attr({stroke: '#9E00FD', 'stroke-width': strokeWidth, 'stroke-linecap' : 'round'}).animate({arc: [purple.attrs.arc[0], 360, R]}); 
+	   		pink.attr({stroke: '#D300EB', 'stroke-width': strokeWidth, 'stroke-linecap' : 'round'}).animate({arc: [pink.attrs.arc[0], 360, R]});
+	    };
 
         //Events
         if(isTouchDevice()){
@@ -174,8 +188,19 @@
 			paper.set(track, purple, pink).drag(handleDrag);
 		}
 
+		$('text').on('click', function(){
+			var el = $(this);
+			if(el.attr('minimized')){
+				el.removeAttr('minimized');
+				maximize();
+			}
+			else{
+				el.attr('minimized', true);
+				minimize();
+			}
+		});
 
-		//DUMMY DATA
+		//DUMMY DATA~~~~~~~~~~~~~~~~~
 		var val = 90;
 		var interval = setInterval(function(){
 			val += Math.random() * 25;
