@@ -9,15 +9,12 @@
    font-weight: 300;color:#fff;}
    h1,h2, h3{font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
    font-weight: 300;}
-	 	#scrubber{
-
-	 	}
 	 	path{z-index: 2;position: absolute;}
 	 	#track{z-index: 0;}
 	 </style>
 	</head>
 	<body>
-		<div id="scrubber"></div>
+		<div id="scrubber-container"></div>
 		<h3>Velocity : <span id="velocity"></span></h3>
 <script>
 (function(window, document, undefined){
@@ -30,27 +27,9 @@
 
 	window.onload = function () {
 
-		var canvasWidth = 300;
-		var canvasHeight = 300;
-		var months = [
-			'January',
-			'February',
-			'March',
-			'April',
-			'May',
-			'June',
-			'July',
-			'August',
-			'September',
-			'October',
-			'November',
-			'December'
-		];
+		var paper = Raphael("scrubber-container", canvasWidth, canvasHeight);
 
-	    var strokeWidth = 70;
-	    var paper = Raphael("scrubber", canvasWidth, canvasHeight),
-	        R = 100;
-	    
+		//custom attributes
 	    paper.customAttributes.arc = function (value, total, R) {
 	        var alpha = 360 / total * value,
 	            a = (90 - alpha) * Math.PI / 180,
@@ -67,22 +46,60 @@
 	        return {path: path};
 	    };
 
-	    //Paths
+	    var R = 100;
+		var canvasWidth = 300;
+		var canvasHeight = 300;
+		var strokeWidth = 70;
+		var months = [
+			'January',
+			'February',
+			'March',
+			'April',
+			'May',
+			'June',
+			'July',
+			'August',
+			'September',
+			'October',
+			'November',
+			'December'
+		];
+
+		//Paths
 	    var track = paper.path().attr({stroke: "#FFFFFF", "stroke-width": strokeWidth}).animate({arc: [359, 360, R]});
 	    var purple = paper.path().attr({stroke: "#9E00FD", "stroke-width": strokeWidth}).animate({arc: [90, 360, R]}); 
 	   	var pink = paper.path().attr({stroke: "#D300EB", "stroke-width": strokeWidth}).animate({arc: [45, 360, R]}); 
 
-	    var canvasPosition = $('#scrubber svg').offset();
+	   	//Text
+	   	var canvasPosition = $('#scrubber-container svg').offset();
 	    var centerX = (canvasWidth - canvasPosition.left) / 2;
 		var centerY = (canvasHeight + canvasPosition.top) / 2;
-	    var angle = 0;
 	    var d = new Date();
 	    var hours = d.getHours();
 	    var minutes = d.getMinutes();
+	   	var date = paper.text(centerX, centerY - 20, d.getDate() + ' '+ months[d.getMonth()] + ' '+ d.getFullYear() + "\n")
+        .attr({
+        	'fill' : '#ffffff',
+        	'font-size' : '14px'
+        });
+        var time = paper.text(centerX, centerY + 15, hours + ':' + minutes).attr({
+        	'fill' : '#ffffff',
+        	'font-size' : '40px'
+        });
+
+
+	    var angle = 0;
     	var lastX = 0;
 		var lastTime = (new Date()).getTime();
 		var distance = 0;
+	    
 
+	   	//setup IDs
+	    track.node.id = "track";
+	    purple.node.id = "purple";
+	    pink.node.id = "pink";
+
+	    //keep track of the velocity
 	    var trackVelocity = function(x, y){
 	    	var t = (new Date()).getTime();
 
@@ -98,6 +115,7 @@
 			$('#velocity').text(velocity);
 	    };
 
+	    //draw the arc based on mouse movement
 	    var drawArc = function(el, x, y){
 	    	var posX = x;
 			var posY = y;
@@ -128,22 +146,9 @@
 			time.attr({text: hours + ':' + minutes});
 	    };
 
-	    //setup IDs
-	    track.node.id = "track";
-	    purple.node.id = "purple"
-	    pink.node.id = "pink"
 
-        var date = paper.text(centerX, centerY - 20, d.getDate() + ' '+ months[d.getMonth()] + ' '+ d.getFullYear() + "\n")
-        .attr({
-        	'fill' : '#ffffff',
-        	'font-size' : '14px'
-        });
 
-        var time = paper.text(centerX, centerY + 15, hours + ':' + minutes).attr({
-        	'fill' : '#ffffff',
-        	'font-size' : '40px'
-        });
-
+        //Events
         if(isTouchDevice()){
         	var handleTouchMove = function(e){
         		e.preventDefault();
@@ -160,7 +165,6 @@
 		}
 		else{
 			var handleDrag = function(dx, dy, x, y, e){
-			    console.log(x,y)
 			    updateTime();
 			    trackVelocity(x, y);
 			};
@@ -177,11 +181,6 @@
 			if(val == 359) clearInterval(interval);
 			purple.animate({arc: [val, 360, R]}, 500, "slide");
 		}, 3000);
-
-        // $('#scrubber').append(t);
-        // $(window).on('mousemove', function(e){
-        // 	console.log(e.pageX, e.pageY)
-        // })
 	};
              
 })(window, document);
