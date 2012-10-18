@@ -179,7 +179,7 @@
 		var val = 90;
 		var interval = setInterval(function(){
 			val += Math.random() * 25;
-			if(val > 358) clearInterval(interval);
+			if(val > 300) clearInterval(interval);
 			purple.animate({arc: [val, 360, R]}, 500, "slide");
 		}, 3000);
 	};
