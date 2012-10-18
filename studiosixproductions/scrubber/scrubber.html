@@ -28,7 +28,7 @@
 	window.onload = function () {
 
 		var paper = Raphael("scrubber-container", canvasWidth, canvasHeight);
-
+		var background = paper.image("center-bg.png", 75, 75, 150, 150);
 		//custom attributes
 	    paper.customAttributes.arc = function (value, total, R) {
 	        var alpha = 360 / total * value,
@@ -66,9 +66,9 @@
 		];
 
 		//Paths
-	    var track = paper.path().attr({stroke: "#FFFFFF", "stroke-width": strokeWidth}).animate({arc: [359, 360, R]});
-	    var purple = paper.path().attr({stroke: "#9E00FD", "stroke-width": strokeWidth}).animate({arc: [90, 360, R]}); 
-	   	var pink = paper.path().attr({stroke: "#D300EB", "stroke-width": strokeWidth}).animate({arc: [45, 360, R]}); 
+	    var track = paper.path().attr({stroke: '#FFFFFF', 'stroke-width': strokeWidth}).animate({arc: [359, 360, R]});
+	    var purple = paper.path().attr({stroke: '#9E00FD', 'stroke-width': strokeWidth, 'stroke-linecap' : 'round'}).animate({arc: [90, 360, R]}); 
+	   	var pink = paper.path().attr({stroke: '#D300EB', 'stroke-width': strokeWidth, 'stroke-linecap' : 'round'}).animate({arc: [45, 360, R]}); 
 
 	   	//Text
 	   	var canvasPosition = $('#scrubber-container svg').offset();
