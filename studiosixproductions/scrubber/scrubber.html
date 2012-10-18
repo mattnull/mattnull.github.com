@@ -15,7 +15,7 @@
 	</head>
 	<body>
 		<div id="scrubber-container"></div>
-		<h3>Velocity : <span id="velocity"></span></h3>
+		<h3>Velocity : <span id="velocity">0</span></h3>
 <script>
 (function(window, document, undefined){
 	
@@ -28,7 +28,8 @@
 	window.onload = function () {
 
 		var paper = Raphael("scrubber-container", canvasWidth, canvasHeight);
-		var background = paper.image("center-bg.png", 75, 75, 150, 150);
+		var background = paper.image("center-bg.png", 65, 65, 130, 130);
+		
 		//custom attributes
 	    paper.customAttributes.arc = function (value, total, R) {
 	        var alpha = 360 / total * value,
@@ -46,10 +47,10 @@
 	        return {path: path};
 	    };
 
-	    var R = 100;
-		var canvasWidth = 300;
-		var canvasHeight = 300;
-		var strokeWidth = 70;
+	    var R = 95;
+		var canvasWidth = 260;
+		var canvasHeight = 260;
+		var strokeWidth = 60;
 		var months = [
 			'January',
 			'February',
@@ -77,14 +78,14 @@
 	    var d = new Date();
 	    var hours = d.getHours();
 	    var minutes = d.getMinutes();
-	   	var date = paper.text(centerX, centerY - 20, d.getDate() + ' '+ months[d.getMonth()] + ' '+ d.getFullYear() + "\n")
+	   	var date = paper.text(centerX, centerY - 25, d.getDate() + ' '+ months[d.getMonth()] + ' '+ d.getFullYear() + "\n")
         .attr({
         	'fill' : '#ffffff',
-        	'font-size' : '14px'
+        	'font-size' : '12px'
         });
-        var time = paper.text(centerX, centerY + 15, hours + ':' + minutes).attr({
+        var time = paper.text(centerX + 5, centerY + 10, hours + ':' + minutes).attr({
         	'fill' : '#ffffff',
-        	'font-size' : '40px'
+        	'font-size' : '38px'
         });
 
 
