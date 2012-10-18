@@ -16,8 +16,7 @@
 	</head>
 	<body>
 		<div id="scrubber-container"></div>
-
-		<h3>Velocity : <span id="velocity">0</span></h3>
+		<h1>Velocity : <span id="velocity">0</span></h1>
 <script>
 (function(window, document, undefined){
 	
@@ -75,23 +74,24 @@
 
 	   	//Text
 	   	var canvasPosition = $('#scrubber-container svg').offset();
-	    var centerX = (canvasWidth - canvasPosition.left) / 2;
-		var centerY = (canvasHeight + canvasPosition.top) / 2;
+	   	var textOffset = 15;
+	    var centerX = canvasPosition.left + (canvasWidth / 2);
+		var centerY = canvasPosition.top + (canvasHeight / 2);
 	    var d = new Date();
 	    var hours = d.getHours();
 	    var minutes = d.getMinutes();
-	   	var date = paper.text(centerX, centerY - 25, d.getDate() + ' '+ months[d.getMonth()] + ' '+ d.getFullYear() + "\n")
+	    console.log(centerX, centerY)
+	   	var date = paper.text(canvasWidth / 2, (canvasHeight / 2) - textOffset, d.getDate() + ' '+ months[d.getMonth()] + ' '+ d.getFullYear() + "\n")
         .attr({
         	'fill' : '#ffffff',
         	'font-size' : '12px',
         	'cursor' : 'pointer'
         });
-        var time = paper.text(centerX + 5, centerY + 10, hours + ':' + minutes).attr({
+        var time = paper.text(canvasWidth / 2, (canvasHeight / 2) + textOffset, hours + ':' + minutes).attr({
         	'fill' : '#ffffff',
         	'font-size' : '38px',
         	'cursor' : 'pointer'
         });
-
 
 	    var angle = 0;
     	var lastX = 0;
