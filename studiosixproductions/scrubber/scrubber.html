@@ -153,7 +153,7 @@
 	    	//DUMMY CODE
 	    	clearInterval(interval);
 	    	//END DUMMY CODE
-	    	
+
 	    	R = 65;
 	    	track.attr({stroke: '#FFFFFF', 'stroke-width': 10}).animate({arc: [359, 360, R]});
 	   	 	purple.attr({stroke: '#9E00FD', 'stroke-width': 10, 'stroke-linecap' : 'round'}).animate({arc: [purple.attrs.arc[0], 360, R]}); 
@@ -225,6 +225,8 @@
 				purple.animate({arc: [val, 360, R]}, 500, "slide");
 			}, 3000);
 		}
+
+		dummyInterval();
 	};
              
 })(window, document);
