@@ -85,10 +85,13 @@
 	    var centerX = canvasPosition.left + (canvasWidth / 2);
 		var centerY = canvasPosition.top + (canvasHeight / 2);
 	    var d = new Date();
+	    var day= d.getDate();
+	    var month = d.getMonth();
+	    var year = d.getFullYear();
 	    var hours = d.getHours();
 	    var minutes = d.getMinutes();
 	
-	   	var date = paper.text(canvasWidth / 2, (canvasHeight / 2) - textOffset, d.getDate() + ' '+ months[d.getMonth()] + ' '+ d.getFullYear() + "\n")
+	   	var date = paper.text(canvasWidth / 2, (canvasHeight / 2) - textOffset, day + ' '+ months[month] + ' '+ year)
         .attr({
         	'fill' : '#ffffff',
         	'font-size' : '12px',
@@ -127,7 +130,9 @@
 	    };
 
 	    //draw the arc based on mouse movement
-	    var drawArc = function(el, x, y){
+	    var lastVal = 0;
+
+	    var scrub = function(x, y){
 	    	var posX = x;
 			var posY = y;
 			var deltaX = posX - centerX;
@@ -139,22 +144,50 @@
 
 			console.log('x', posX,'y',posY, 'angle', angle, 'value', val)
 			
-			if(val == 0 || angle == 359) return;
-
-			el.animate({arc: [val, 360, R]});
-	    };
-
-	    var updateTime = function(){
-	    	//time
-			if(minutes < 60){
-				minutes++;
+			//Time update
+			if(val < lastVal){ // we are decreasing
+				
+				if(hours == 0 && minutes == 0){
+					day--;			
+					hours = 24;
+					minutes = 59;
+					date.attr({text: day + ' '+ months[month] + ' '+ year});
+					time.attr({text: hours + ':' + minutes});
+				}
+				else if(minutes == 0){
+					minutes = 59;
+					hours--;
+					time.attr({text: hours + ':' + minutes});
+				}
+				else{
+					minutes--;
+					time.attr({text: hours + ':' + minutes});
+				}
 			}
-			else{
-				hours++;
-				minutes = 0;
+			else{ // we are increasing
+	
+				if(hours == 24 && minutes == 59){
+					day++; //increase the day
+					hours = 0; // reset hours
+					minutes = 0; //reset minutes
+					date.attr({text: day + ' '+ months[month] + ' '+ year});
+					time.attr({text: hours + ':' + minutes});
+				}
+				else if(minutes < 59){
+					minutes++; //increase minutes
+					time.attr({text: hours + ':' + minutes});
+				}
+				else{
+					hours++;
+					minutes = 0;
+					time.attr({text: hours + ':' + minutes});
+				}
 			}
 
-			time.attr({text: hours + ':' + minutes});
+			if(val == 0 || angle > 359) return;
+
+			//el.animate({arc: [val, 360, R]});
+			lastVal = val;
 	    };
 
 	    var minimize = function(){
@@ -193,7 +226,7 @@
 			    var touch = e.touches[0];
 			    var x = touch.pageX;
 			    var y = touch.pageY;
-			    updateTime();
+			    scrub(x, y);
 			    trackVelocity(x, y);
         	};
 
@@ -203,7 +236,7 @@
 		}
 		else{
 			var handleDrag = function(dx, dy, x, y, e){
-			    updateTime();
+			   	scrub(x, y);
 			    trackVelocity(x, y);
 			};
 
