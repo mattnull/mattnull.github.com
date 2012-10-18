@@ -15,8 +15,10 @@
 	</head>
 	<body>
 		<div id="scrubber"></div>
+		<div>Velocity : <div id="velocity"></div></div>
 <script>
 (function(window, document, undefined){
+	
 	function isTouchDevice() {
 		var el = document.createElement('div');
 		el.setAttribute('ongesturestart', 'return;');
@@ -62,9 +64,11 @@
 	        return {path: path};
 	    };
 
+	    //Paths
 	    var track = paper.path().attr({stroke: "#FFFFFF", "stroke-width": strokeWidth}).animate({arc: [359, 360, R]});
-	    var purple = paper.path().attr({stroke: "#9E00FD", "stroke-width": strokeWidth}).animate({arc: [180, 360, R]}); 
-	   	var pink = paper.path().attr({stroke: "#D300EB", "stroke-width": strokeWidth}).animate({arc: [130, 360, R]}); 
+	    var purple = paper.path().attr({stroke: "#9E00FD", "stroke-width": strokeWidth}).animate({arc: [90, 360, R]}); 
+	   	var pink = paper.path().attr({stroke: "#D300EB", "stroke-width": strokeWidth}).animate({arc: [45, 360, R]}); 
+
 	    var canvasPosition = $('#scrubber svg').offset();
 	    var centerX = (canvasWidth - canvasPosition.left) / 2;
 		var centerY = (canvasHeight + canvasPosition.top) / 2;
@@ -72,12 +76,30 @@
 	    var d = new Date();
 	    var hours = d.getHours();
 	    var minutes = d.getMinutes();
+    	var lastX = 0;
+		var lastTime = (new Date()).getTime();
+		var distance = 0;
 
-	    var draw = function(el, x, y){
+	    var trackVelocity = function(x, y){
+	    	var t = (new Date()).getTime();
+
+			if(lastX > 0){
+				velocity =  (x - lastX) / (t - lastTime);
+			}
+
+			lastX = x;
+			lastTime = t;
+			velocity = velocity < 0 ? Math.floor(-velocity * 100) : Math.floor(velocity * 100);
+
+			//FOR DEMO ~~~~~~~~~~~~~~~~~~
+			$('#velocity').text(velocity);
+	    };
+
+	    var drawArc = function(el, x, y){
 	    	var posX = x;
 			var posY = y;
 			var deltaX = posX - centerX;
-			var deltaY = posY - centerY;
+			var deltaY = posY - centerY;		
 
 			angle = (Math.atan2(deltaY, deltaX) * 180 / Math.PI) + 90;
 
@@ -86,10 +108,12 @@
 			console.log('x', posX,'y',posY, 'angle', angle, 'value', val)
 			
 			if(val == 0 || angle == 359) return;
-			
+
 			el.animate({arc: [val, 360, R]});
-			
-			//time
+	    };
+
+	    var updateTime = function(){
+	    	//time
 			if(minutes < 60){
 				minutes++;
 			}
@@ -106,14 +130,6 @@
 	    purple.node.id = "purple"
 	    pink.node.id = "pink"
 
-        var start = function (x, y, e) {
-			draw(this, e.clientX, e.clientY);
-        },
-        move = function (dx, dy, x, y, e) {
-			draw(this, e.clientX, e.clientY);
-        },
-        up = function (dx, dy) {};
-
         var date = paper.text(centerX, centerY - 20, d.getDate() + ' '+ months[d.getMonth()] + ' '+ d.getFullYear() + "\n")
         .attr({
         	'fill' : '#ffffff',
@@ -126,24 +142,39 @@
         });
 
         if(isTouchDevice()){
-			document.getElementById('purple').addEventListener('touchmove', function(event) {
-			    event.preventDefault();
-			    var touch = event.touches[0];
-			    console.log("Touch x:" + touch.pageX + ", y:" + touch.pageY);
-			    draw(purple, touch.pageX, touch.pageY);
-			}, false);
+        	var handleTouchMove = function(e){
+        		e.preventDefault();
+			    var touch = e.touches[0];
+			    var x = touch.pageX;
+			    var y = touch.pageY;
+			    updateTime();
+			    trackVelocity(x, y);
+        	};
 
-			document.getElementById('pink').addEventListener('touchmove', function(event) {
-			    event.preventDefault();
-			    var touch = event.touches[0];
-			    console.log("Touch x:" + touch.pageX + ", y:" + touch.pageY);
-			    draw(pink, touch.pageX, touch.pageY);
-			}, false);
+			document.getElementById('track').addEventListener('touchmove', handleTouchMove, false);
+			document.getElementById('pink').addEventListener('touchmove', handleTouchMove, false);
+			document.getElementById('purple').addEventListener('touchmove', handleTouchMove, false);
 		}
 		else{
-			purple.drag(move, start, up);
-			pink.drag(move, start, up);
+			var handleDrag = function(dx, dy, x, y, e){
+				e.preventDefault();
+			    var x = e.clientX;
+			    var y = e.clientY;
+			    console.log(x,y)
+			    updateTime();
+			    trackVelocity(x, y);
+			};
+
+			paper.set(track,purple,pink).drag(handleDrag, handleDrag);
 		}
+
+
+		//DUMMY DATA
+		var val = 90;
+		setInterval(function(){
+			val += Math.random() * 10;
+			purple.animate({arc: [val++, 360, R]}, 500, "slide");
+		}, 2000);
 
         // $('#scrubber').append(t);
         // $(window).on('mousemove', function(e){
