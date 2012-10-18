@@ -203,7 +203,7 @@
 			paper.set(track, purple, pink).drag(handleDrag);
 		}
 
-		$('text').on('click', function(){
+		$('text').on('click touchstart', function(){
 			var el = $(this);
 			if(el.attr('minimized')){
 				el.removeAttr('minimized');
