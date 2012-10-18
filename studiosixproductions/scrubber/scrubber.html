@@ -5,7 +5,10 @@
 	 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 	 <script src="raphael.min.js"></script>
 	 <style>
-	 body{background: #000000;font-family: Helvetica;color:#fff;}
+	 body{background: #000000;font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+   font-weight: 300;color:#fff;}
+   h1,h2, h3{font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+   font-weight: 300;}
 	 	#scrubber{
 
 	 	}
@@ -15,7 +18,7 @@
 	</head>
 	<body>
 		<div id="scrubber"></div>
-		<div>Velocity : <div id="velocity"></div></div>
+		<h3>Velocity : <span id="velocity"></span></h3>
 <script>
 (function(window, document, undefined){
 	
@@ -157,24 +160,23 @@
 		}
 		else{
 			var handleDrag = function(dx, dy, x, y, e){
-				e.preventDefault();
-			    var x = e.clientX;
-			    var y = e.clientY;
 			    console.log(x,y)
 			    updateTime();
 			    trackVelocity(x, y);
 			};
 
-			paper.set(track,purple,pink).drag(handleDrag, handleDrag);
+			//set the drag event for each path object
+			paper.set(track, purple, pink).drag(handleDrag);
 		}
 
 
 		//DUMMY DATA
 		var val = 90;
-		setInterval(function(){
-			val += Math.random() * 10;
-			purple.animate({arc: [val++, 360, R]}, 500, "slide");
-		}, 2000);
+		var interval = setInterval(function(){
+			val += Math.random() * 20;
+			if(val == 359) clearInterval(interval);
+			purple.animate({arc: [val, 360, R]}, 500, "slide");
+		}, 3000);
 
         // $('#scrubber').append(t);
         // $(window).on('mousemove', function(e){
