@@ -5,7 +5,7 @@
  */
 
 var Scrubber = function(params){
-	
+
 	var config = {
 		containerID : 'scrubber-container',
 		canvasWidth : 300,
@@ -81,8 +81,8 @@ var Scrubber = function(params){
 
 Scrubber.prototype.attachEvents = function(){
 	var self = this;
-	alert(this.isTouchDevice())
-    if(this.isTouchDevice()){
+
+    if(this.isTouchDevice()){ alert('touch')
     	var handleTouchMove = function(e){
     		e.preventDefault();
 		    var touch = e.touches[0];
@@ -100,7 +100,7 @@ Scrubber.prototype.attachEvents = function(){
 			self.toggleMinimize();
 		});
 	}
-	else{
+	else{ alert('drag')
 		var handleDrag = function(dx, dy, x, y, e){
 		   	self.scrub(x, y);
 		    self.trackVelocity(x, y);
