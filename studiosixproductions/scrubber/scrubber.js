@@ -82,7 +82,7 @@ var Scrubber = function(params){
 Scrubber.prototype.attachEvents = function(){
 	var self = this;
 
-    if(this.isTouchDevice()){ alert('touch')
+    if(this.isTouchDevice()){
     	var handleTouchMove = function(e){
     		e.preventDefault();
 		    var touch = e.touches[0];
@@ -100,7 +100,7 @@ Scrubber.prototype.attachEvents = function(){
 			self.toggleMinimize();
 		});
 	}
-	else{ alert('drag')
+	else{
 		var handleDrag = function(dx, dy, x, y, e){
 		   	self.scrub(x, y);
 		    self.trackVelocity(x, y);
