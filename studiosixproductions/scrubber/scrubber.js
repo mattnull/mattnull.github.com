@@ -81,8 +81,8 @@ var Scrubber = function(params){
 
 Scrubber.prototype.attachEvents = function(){
 	var self = this;
-
-    if(this.isTouchDevice()){ alert('touchevent')
+	alert(this.isTouchDevice())
+    if(this.isTouchDevice()){
     	var handleTouchMove = function(e){
     		e.preventDefault();
 		    var touch = e.touches[0];
