@@ -3,72 +3,6 @@
  * @author Matt Null -- hello@mattnull.com
  * Class is dependent on jQuery and RaphaelJS
  */
-/*global Raphael:true*/
-(function() {
-    if (Raphael.vml) {
-        Raphael.el.strokeLinearGradient = function() {
-            // not supporting VML yet
-            return this; // maintain chainability
-        };
-    } else {
-        var setAttr = function(el, attr) {
-            var key;
-            if (attr) {
-                for (key in attr) {
-                    if (attr.hasOwnProperty(key)) {
-                        el.setAttribute(key, attr[key]);
-                    }
-                }
-            } else {
-                return document.createElementNS("http://www.w3.org/2000/svg", el);
-            }
-
-            return null;
-        };
-
-        var defLinearGrad = function(defId, stops) {
-            var def = setAttr("linearGradient");
-            var i, l;
-            def.id = defId;
-
-            for (i = 0, l = stops.length; i < l; i += 1) {
-                var stopEle = setAttr("stop");
-                var stop = stops[i];
-                setAttr(stopEle, stop);
-
-                def.appendChild(stopEle);
-            }
-
-            return def;
-        };
-
-        Raphael.el.strokeLinearGradient = function(defId, width, stops) {
-
-            if (stops) {
-                this.paper.defs.appendChild(defLinearGrad(defId, stops));
-            }
-
-            setAttr(this.node, {
-                "stroke": "url(#" + defId + ")",
-                "stroke-width": width
-            });
-
-            return this; // maintain chainability
-        };
-
-        Raphael.st.strokeLinearGradient = function(defId, width, stops) {
-            return this.forEach(function(el) {
-                el.strokeLinearGradient(defId, width, stops);
-            });
-        };
-
-        Raphael.fn.defineLinearGradient = function(defId, stops) {
-
-            this.defs.appendChild(defLinearGrad(defId, stops));
-        };
-    }
-}());
-
 
 var Scrubber = function(params){
 	
@@ -161,16 +95,8 @@ Scrubber.prototype.attachEvents = function(){
 		document.getElementById('readbar').addEventListener('touchmove', handleTouchMove, false);
 		document.getElementById('unreadbar').addEventListener('touchmove', handleTouchMove, false);
 
-		$(this.selector + ' text').on('touchstart', function(){
-			var el = $(this);
-			if(el.attr('minimized')){
-				el.removeAttr('minimized');
-				self.maximize();
-			}
-			else{
-				el.attr('minimized', true);
-				self.minimize();
-			}
+		$(document).on('touchstart', this.selector + ' text', function(){
+			self.toggleMinimize();
 		});
 	}
 	else{
@@ -182,20 +108,23 @@ Scrubber.prototype.attachEvents = function(){
 		//set the drag event for each path object
 		this.paper.set(this.track, this.unreadBar, this.readBar).drag(handleDrag);
 
-		$(this.selector + ' text').on('click', function(){
-			var el = $(this);
-			if(el.attr('minimized')){
-				el.removeAttr('minimized');
-				self.maximize();
-			}
-			else{
-				el.attr('minimized', true);
-				self.minimize();
-			}
+		$(document).on('click',this.selector + ' text',function(){
+			self.toggleMinimize();
 		});
 	}
+};
 
+Scrubber.prototype.toggleMinimize = function(){
+	var container = $(this.selector);
 
+	if(container.attr('minimized')){
+		container.removeAttr('minimized');
+		this.maximize();
+	}
+	else{
+		container.attr('minimized', true);
+		this.minimize();
+	}
 };
 
 Scrubber.prototype.drawInnerCircle = function(){
@@ -248,6 +177,8 @@ Scrubber.prototype.drawReadBar = function(angle, duration, effect){
    }
    else{
    		var self = this;
+   		var glowSize = $(this.selector).attr('minimized') ? 3 : 12;
+   		
    		this.readBar.animate({arc : [angle, 360, this.R]}, duration, effect, function(){
    
 			self.readGlow.remove();
@@ -255,7 +186,7 @@ Scrubber.prototype.drawReadBar = function(angle, duration, effect){
 			self.readGlow = self.readBar.glow({
 				color: "#000",
 				opacity: 1,
-				width: 12
+				width: glowSize
 			});
    		});
 
@@ -285,14 +216,14 @@ Scrubber.prototype.drawUnreadBar = function(angle, duration, effect){
 	}
 	else{
 		var self = this;
-
+		var glowSize = $(this.selector).attr('minimized') ? 3 : 12;
 		this.unreadBar.animate({arc : [angle, 360, this.R]}, duration, effect, function(){
 			self.unreadGlow.remove();
 			//update the glow
 			self.unreadGlow = self.unreadBar.glow({
 				color: "#000",
 				opacity: 1,
-				width: 12
+				width: glowSize
 			});
 		});	
 
