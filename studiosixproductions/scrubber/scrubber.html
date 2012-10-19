@@ -4,9 +4,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 	 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 	 <script src="raphael.min.js"></script>
-<!-- 	 // <script src="raphael.filter.js"></script> -->
 	 <script src="scrubber.js"></script>
-	 <!-- // <script src="raphael.dropshadow.js"></script> -->
 	 <style>
 	 body{background: #000;font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
    font-weight: 300;color:#fff;text-align: center;}
@@ -45,14 +43,23 @@
 	    });
 
 		//DUMMY DATA~~~~~~~~~~~~~~~~~
-		var val = 90;
+		var val1 = 45;
+		var val2 = 90;
 		var interval;
 
 		var dummyInterval = function(){
 			interval = setInterval(function(){
-				val += Math.random() * 25;
-				if(val > 300) clearInterval(interval);
-				scrubber.unreadBar.animate({arc: [val, 360, scrubber.R]}, 500, "slide");
+				val1 += Math.floor(Math.random() * 25);
+				val2 += Math.floor(Math.random() * 25);
+				
+				if(val1 > 360 || val2 > 360){
+					clearInterval(dummyInterval);
+					return;
+				}
+
+				scrubber.drawReadBar(val1, 200, 'slide')
+				scrubber.drawUnreadBar(val2, 200, 'slide');
+				
 			}, 3000);
 		}
 

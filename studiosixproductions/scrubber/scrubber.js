@@ -69,6 +69,7 @@
     }
 }());
 
+
 var Scrubber = function(params){
 	
 	var config = {
@@ -106,17 +107,8 @@ var Scrubber = function(params){
 
 	this.R = R = this.config.innerRadius;
 	this.paper = Raphael("scrubber-container", this.config.canvasWidth, this.config.canvasHeight);
-	// this.paper.defineLinearGradient("grad1", [{
-	//     "id": "s1",
-	//     "offset": "0",
-	//     "style": "stop-color:#fff;stop-opacity:0.8;"},
-	// {
-	//     "id": "s2",
-	//     "offset": "1",
-	//     "style": "stop-color:#fff;stop-opacity:0;"
-	// }]);
-
 	this.selector = '#'+ this.config.containerID;
+
 	var canvasPosition = $(this.selector + ' svg').offset();
     this.centerX = canvasPosition.left + (this.config.canvasWidth / 2);
 	this.centerY = canvasPosition.top + (this.config.canvasHeight / 2);
@@ -130,7 +122,8 @@ var Scrubber = function(params){
     this.lastVal = 0;
 
 	this.paper.customAttributes.arc = function (value, total, R) {
-        var alpha = value == 360 ? 359 : 360 / total * value,
+
+        var alpha = value >= 360 ? 359 : 360 / total * value,
             a = (90 - alpha) * Math.PI / 180,
             x = (self.config.canvasWidth / 2) + R * Math.cos(a),
             y = (self.config.canvasHeight / 2) - R * Math.sin(a),
@@ -220,34 +213,76 @@ Scrubber.prototype.drawTrack = function(){
 	// track.node.setAttribute("class", "dropshadow");
 };
 
-Scrubber.prototype.drawReadBar = function(angle){
+Scrubber.prototype.drawReadBar = function(angle, duration, effect){
+	effect = effect || 'slide';
+	duration = duration || 0;
 
+	if(!this.readBar){
+	   	this.readBar = this.paper.path().attr({
+	   		'stroke': this.config.readBarColor, 
+	   		'stroke-width': this.config.strokeWidth, 
+	   		'stroke-linecap' : 'round',
+	   		arc : [angle, 360, this.R]
+	   	});
+	   	this.readBar.node.id = "read";
 
-   	this.readBar = this.paper.path().attr({
-   		'stroke': this.config.readBarColor, 
-   		'stroke-width': this.config.strokeWidth, 
-   		'stroke-linecap' : 'round',
-   		arc: [angle, 360, this.R]
-   	});
-   	/** this was an attempt at the fade effect **/
-   	// var hider = this.paper.path().attr({
-   	// 	'stroke': this.config.readBarColor, 
-   	// 	'stroke-width': this.config.strokeWidth, 
-   	// 	'stroke-linecap' : 'round',
-   	// 	arc : [angle, 360, this.R]
-   	// }).strokeLinearGradient("grad1", this.config.strokeWidth);
-   	this.readBar.node.id = "read";
+	   	this.readGlow = this.readBar.glow({
+			color: "#000",
+			opacity: 0.9,
+			width: 12
+		});
+   }
+   else{
+   		var self = this;
+   		this.readBar.animate({arc : [angle, 360, this.R]}, duration, effect, function(){
+   
+			self.readGlow.remove();
+			//update the glow
+			self.readGlow = self.readBar.glow({
+				color: "#000",
+				opacity: 1,
+				width: 12
+			});
+   		});
+
+   }
+   	
 }
 
-Scrubber.prototype.drawUnreadBar = function(angle){
+Scrubber.prototype.drawUnreadBar = function(angle, duration, effect){
+	effect = effect || 'slide';
+	duration = duration || 0;
 
-    this.unreadBar = this.paper.path().attr({
-    	'stroke': this.config.unreadBarColor, 
-    	'stroke-width': this.config.strokeWidth, 
-    	'stroke-linecap' : 'round'
-    }).animate({arc: [angle, 360, this.R]}); 
+	if(!this.unreadBar){
+	    this.unreadBar = this.paper.path().attr({
+	    	'stroke': this.config.unreadBarColor, 
+	    	'stroke-width': this.config.strokeWidth, 
+	    	'stroke-linecap' : 'round',
+	    	arc: [angle, 360, this.R]
+	    });
 
-   	this.unreadBar.node.id = "unread";
+	    this.unreadGlow = this.unreadBar.glow({
+			color: "#000",
+			opacity: 1,
+			width: 12
+		});
+
+	   	this.unreadBar.node.id = "unread";
+	}
+	else{
+		var self = this;
+
+		this.unreadBar.animate({arc : [angle, 360, this.R]}, duration, effect, function(){
+			self.unreadGlow.remove();
+			//update the glow
+			self.unreadGlow = self.unreadBar.glow({
+				color: "#000",
+				opacity: 1,
+				width: 12
+			});
+		});	
+
+	}
 };
 
 Scrubber.prototype.isTouchDevice = function(){
@@ -389,8 +424,20 @@ Scrubber.prototype.minimize = function(){
 	});
 
 	this.unreadBar.attr({stroke: this.config.unreadBarColor, 'stroke-width': 10, 'stroke-linecap' : 'round', arc: [this.unreadBar.attrs.arc[0], 360, R]});
-	this.readBar.attr({stroke: this.config.readBarColor, 'stroke-width': 10, 'stroke-linecap' : 'round', arc: [this.readBar.attrs.arc[0], 360, R]});
+	this.unreadGlow.remove();
+	this.unreadGlow = this.unreadBar.glow({
+		color: "#000",
+		opacity: 0.8,
+		width: 3
+	});
 
+	this.readBar.attr({stroke: this.config.readBarColor, 'stroke-width': 10, 'stroke-linecap' : 'round', arc: [this.readBar.attrs.arc[0], 360, R]});
+	this.readGlow.remove();
+	this.readGlow = this.unreadBar.glow({
+		color: "#000",
+		opacity: 0.8,
+		width: 3
+	});
 	//DUMMY CODE
 	//dummyInterval();
 	//END DUMMY CODE
@@ -410,8 +457,20 @@ Scrubber.prototype.maximize = function(){
 	});
 
 	this.unreadBar.attr({stroke: this.config.unreadBarColor, 'stroke-width': this.config.strokeWidth, 'stroke-linecap' : 'round', arc: [this.unreadBar.attrs.arc[0], 360, this.R]});
-	this.readBar.attr({stroke: this.config.readBarColor, 'stroke-width': this.config.strokeWidth, 'stroke-linecap' : 'round', arc: [this.readBar.attrs.arc[0], 360, this.R]});
+	this.unreadGlow.remove();
+	this.unreadGlow = this.unreadBar.glow({
+		color: "#000",
+		opacity: 0.8,
+		width: 12
+	});
 
+	this.readBar.attr({stroke: this.config.readBarColor, 'stroke-width': this.config.strokeWidth, 'stroke-linecap' : 'round', arc: [this.readBar.attrs.arc[0], 360, this.R]});
+	this.readGlow.remove();
+	this.readGlow = this.readBar.glow({
+		color: "#000",
+		opacity: 0.8,
+		width: 12
+	});
 		//DUMMY CODE
 	//dummyInterval();
 	//END DUMMY CODE
