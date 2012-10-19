@@ -93,8 +93,8 @@ Scrubber.prototype.attachEvents = function(){
     	};
 
 		document.getElementById('track').addEventListener('touchmove', handleTouchMove, false);
-		document.getElementById('readbar').addEventListener('touchmove', handleTouchMove, false);
-		document.getElementById('unreadbar').addEventListener('touchmove', handleTouchMove, false);
+		document.getElementById('read').addEventListener('touchmove', handleTouchMove, false);
+		document.getElementById('unread').addEventListener('touchmove', handleTouchMove, false);
 
 		$(document).on('touchstart', this.selector + ' text', function(){
 			self.toggleMinimize();
