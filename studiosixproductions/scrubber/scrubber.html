@@ -90,14 +90,24 @@
 	    var year = d.getFullYear();
 	    var hours = d.getHours();
 	    var minutes = d.getMinutes();
-	
+		
+
 	   	var date = paper.text(canvasWidth / 2, (canvasHeight / 2) - textOffset, day + ' '+ months[month] + ' '+ year)
         .attr({
         	'fill' : '#ffffff',
         	'font-size' : '12px',
         	'cursor' : 'pointer'
         });
-        var time = paper.text(canvasWidth / 2, (canvasHeight / 2) + textOffset, hours + ':' + minutes).attr({
+        var min = minutes;
+        var hr = hours;
+
+        if(minutes < 10){
+        	min = '0'+minutes;
+        }
+        if(hours < 10){
+        	hr = '0'+hours;
+        }
+        var time = paper.text(canvasWidth / 2, (canvasHeight / 2) + textOffset, hr + ':' + min).attr({
         	'fill' : '#ffffff',
         	'font-size' : '38px',
         	'cursor' : 'pointer'
@@ -132,6 +142,20 @@
 	    //draw the arc based on mouse movement
 	    var lastVal = 0;
 
+	    var updateTime = function(){
+	    	var min = minutes;
+	    	var hr = hours;
+	    	if(minutes < 10){
+	    		min = '0'+minutes;
+	    	}
+
+	    	if(hours < 10){
+	    		hr = '0'+hours;
+	    	}
+
+	    	time.attr({text: hr + ':' + min});
+	    };
+
 	    var scrub = function(x, y){
 	    	var posX = x;
 			var posY = y;
@@ -152,16 +176,16 @@
 					hours = 24;
 					minutes = 59;
 					date.attr({text: day + ' '+ months[month] + ' '+ year});
-					time.attr({text: hours + ':' + minutes});
+					updateTime();
 				}
 				else if(minutes == 0){
 					minutes = 59;
 					hours--;
-					time.attr({text: hours + ':' + minutes});
+					updateTime();
 				}
 				else{
 					minutes--;
-					time.attr({text: hours + ':' + minutes});
+					updateTime();
 				}
 			}
 			else{ // we are increasing
@@ -171,16 +195,16 @@
 					hours = 0; // reset hours
 					minutes = 0; //reset minutes
 					date.attr({text: day + ' '+ months[month] + ' '+ year});
-					time.attr({text: hours + ':' + minutes});
+					updateTime();
 				}
 				else if(minutes < 59){
 					minutes++; //increase minutes
-					time.attr({text: hours + ':' + minutes});
+					updateTime();
 				}
 				else{
 					hours++;
 					minutes = 0;
-					time.attr({text: hours + ':' + minutes});
+					updateTime();
 				}
 			}
 
