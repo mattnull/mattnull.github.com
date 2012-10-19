@@ -3,6 +3,71 @@
  * @author Matt Null -- hello@mattnull.com
  * Class is dependent on jQuery and RaphaelJS
  */
+/*global Raphael:true*/
+(function() {
+    if (Raphael.vml) {
+        Raphael.el.strokeLinearGradient = function() {
+            // not supporting VML yet
+            return this; // maintain chainability
+        };
+    } else {
+        var setAttr = function(el, attr) {
+            var key;
+            if (attr) {
+                for (key in attr) {
+                    if (attr.hasOwnProperty(key)) {
+                        el.setAttribute(key, attr[key]);
+                    }
+                }
+            } else {
+                return document.createElementNS("http://www.w3.org/2000/svg", el);
+            }
+
+            return null;
+        };
+
+        var defLinearGrad = function(defId, stops) {
+            var def = setAttr("linearGradient");
+            var i, l;
+            def.id = defId;
+
+            for (i = 0, l = stops.length; i < l; i += 1) {
+                var stopEle = setAttr("stop");
+                var stop = stops[i];
+                setAttr(stopEle, stop);
+
+                def.appendChild(stopEle);
+            }
+
+            return def;
+        };
+
+        Raphael.el.strokeLinearGradient = function(defId, width, stops) {
+
+            if (stops) {
+                this.paper.defs.appendChild(defLinearGrad(defId, stops));
+            }
+
+            setAttr(this.node, {
+                "stroke": "url(#" + defId + ")",
+                "stroke-width": width
+            });
+
+            return this; // maintain chainability
+        };
+
+        Raphael.st.strokeLinearGradient = function(defId, width, stops) {
+            return this.forEach(function(el) {
+                el.strokeLinearGradient(defId, width, stops);
+            });
+        };
+
+        Raphael.fn.defineLinearGradient = function(defId, stops) {
+
+            this.defs.appendChild(defLinearGrad(defId, stops));
+        };
+    }
+}());
 
 var Scrubber = function(params){
 	
@@ -41,6 +106,16 @@ var Scrubber = function(params){
 
 	this.R = R = this.config.innerRadius;
 	this.paper = Raphael("scrubber-container", this.config.canvasWidth, this.config.canvasHeight);
+	// this.paper.defineLinearGradient("grad1", [{
+	//     "id": "s1",
+	//     "offset": "0",
+	//     "style": "stop-color:#fff;stop-opacity:0.8;"},
+	// {
+	//     "id": "s2",
+	//     "offset": "1",
+	//     "style": "stop-color:#fff;stop-opacity:0;"
+	// }]);
+
 	this.selector = '#'+ this.config.containerID;
 	var canvasPosition = $(this.selector + ' svg').offset();
     this.centerX = canvasPosition.left + (this.config.canvasWidth / 2);
@@ -147,12 +222,20 @@ Scrubber.prototype.drawTrack = function(){
 
 Scrubber.prototype.drawReadBar = function(angle){
 
+
    	this.readBar = this.paper.path().attr({
    		'stroke': this.config.readBarColor, 
    		'stroke-width': this.config.strokeWidth, 
-   		'stroke-linecap' : 'round'
-   	}).animate({arc: [angle, 360, this.R]}); 
-
+   		'stroke-linecap' : 'round',
+   		arc: [angle, 360, this.R]
+   	});
+   	/** this was an attempt at the fade effect **/
+   	// var hider = this.paper.path().attr({
+   	// 	'stroke': this.config.readBarColor, 
+   	// 	'stroke-width': this.config.strokeWidth, 
+   	// 	'stroke-linecap' : 'round',
+   	// 	arc : [angle, 360, this.R]
+   	// }).strokeLinearGradient("grad1", this.config.strokeWidth);
    	this.readBar.node.id = "read";
 }
 
@@ -308,7 +391,7 @@ Scrubber.prototype.minimize = function(){
 	this.unreadBar.attr({stroke: this.config.unreadBarColor, 'stroke-width': 10, 'stroke-linecap' : 'round', arc: [this.unreadBar.attrs.arc[0], 360, R]});
 	this.readBar.attr({stroke: this.config.readBarColor, 'stroke-width': 10, 'stroke-linecap' : 'round', arc: [this.readBar.attrs.arc[0], 360, R]});
 
-		//DUMMY CODE
+	//DUMMY CODE
 	//dummyInterval();
 	//END DUMMY CODE
 };
