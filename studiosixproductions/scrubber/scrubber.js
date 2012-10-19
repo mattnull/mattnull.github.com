@@ -37,6 +37,7 @@ var Scrubber = function(params){
 		'November',
 		'December'
 	];
+
 	var self = this;
 
 	this.R = R = this.config.innerRadius;
@@ -81,7 +82,7 @@ var Scrubber = function(params){
 Scrubber.prototype.attachEvents = function(){
 	var self = this;
 
-    if(this.isTouchDevice()){
+    if(this.isTouchDevice()){ alert('touchevent')
     	var handleTouchMove = function(e){
     		e.preventDefault();
 		    var touch = e.touches[0];
