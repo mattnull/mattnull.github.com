@@ -160,6 +160,18 @@ Scrubber.prototype.attachEvents = function(){
 		document.getElementById('track').addEventListener('touchmove', handleTouchMove, false);
 		document.getElementById('readbar').addEventListener('touchmove', handleTouchMove, false);
 		document.getElementById('unreadbar').addEventListener('touchmove', handleTouchMove, false);
+
+		$(this.selector + ' text').on('touchstart', function(){
+			var el = $(this);
+			if(el.attr('minimized')){
+				el.removeAttr('minimized');
+				self.maximize();
+			}
+			else{
+				el.attr('minimized', true);
+				self.minimize();
+			}
+		});
 	}
 	else{
 		var handleDrag = function(dx, dy, x, y, e){
@@ -169,19 +181,21 @@ Scrubber.prototype.attachEvents = function(){
 
 		//set the drag event for each path object
 		this.paper.set(this.track, this.unreadBar, this.readBar).drag(handleDrag);
+
+		$(this.selector + ' text').on('click', function(){
+			var el = $(this);
+			if(el.attr('minimized')){
+				el.removeAttr('minimized');
+				self.maximize();
+			}
+			else{
+				el.attr('minimized', true);
+				self.minimize();
+			}
+		});
 	}
 
-	$(this.selector + ' text').on('click', function(){
-		var el = $(this);
-		if(el.attr('minimized')){
-			el.removeAttr('minimized');
-			self.maximize();
-		}
-		else{
-			el.attr('minimized', true);
-			self.minimize();
-		}
-	});
+
 };
 
 Scrubber.prototype.drawInnerCircle = function(){
