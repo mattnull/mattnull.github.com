@@ -180,17 +180,14 @@ Scrubber.prototype.drawReadBar = function(angle, duration, effect){
    		var self = this;
    		var glowSize = $(this.selector).attr('minimized') ? 3 : 12;
    		
-   		this.readBar.animate({arc : [angle, 360, this.R]}, duration, effect, function(){
-   
-			self.readGlow.remove();
-			//update the glow
-			self.readGlow = self.readBar.glow({
-				color: "#000",
-				opacity: 1,
-				width: glowSize
-			});
-   		});
-
+   		this.readBar.attr({arc : [angle, 360, this.R]});
+   		this.readGlow.remove();
+		//update the glow
+		this.readGlow = self.readBar.glow({
+			color: "#000",
+			opacity: 1,
+			width: glowSize
+		});
    }
    	
 }
@@ -218,15 +215,14 @@ Scrubber.prototype.drawUnreadBar = function(angle, duration, effect){
 	else{
 		var self = this;
 		var glowSize = $(this.selector).attr('minimized') ? 3 : 12;
-		this.unreadBar.animate({arc : [angle, 360, this.R]}, duration, effect, function(){
-			self.unreadGlow.remove();
-			//update the glow
-			self.unreadGlow = self.unreadBar.glow({
-				color: "#000",
-				opacity: 1,
-				width: glowSize
-			});
-		});	
+		this.unreadBar.attr({arc : [angle, 360, this.R]});	
+		this.unreadGlow.remove();
+		//update the glow
+		this.unreadGlow = self.unreadBar.glow({
+			color: "#000",
+			opacity: 1,
+			width: glowSize
+		});
 
 	}
 };
@@ -306,8 +302,6 @@ Scrubber.prototype.scrub = function(x, y){
 	var angle = (Math.atan2(deltaY, deltaX) * 180 / Math.PI) + 90;
 
 	var val = (angle < 0) ? 360 + angle : angle;
-
-	console.log('x', x,'y',y, 'angle', angle, 'value', val)
 	
 	//Time update
 	if(val < this.lastVal){ // we are decreasing
