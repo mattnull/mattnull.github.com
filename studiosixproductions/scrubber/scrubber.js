@@ -86,6 +86,7 @@ Scrubber.prototype.attachEvents = function(){
     	var handleTouchMove = function(e){
     		e.preventDefault();
 		    var touch = e.touches[0];
+		   
 		    var x = touch.clientX;
 		    var y = touch.clientY;
 		    self.scrub(x, y);
@@ -93,8 +94,8 @@ Scrubber.prototype.attachEvents = function(){
     	};
 
 		this.track.touchmove(handleTouchMove);
-		this.read.touchmove(handleTouchMove);
-		this.unread.touchmove(handleTouchMove);
+		this.readBar.touchmove(handleTouchMove);
+		this.unreadBar.touchmove(handleTouchMove);
 
 		$(document).on('touchstart', this.selector + ' text', function(){
 			self.toggleMinimize();
@@ -129,7 +130,6 @@ Scrubber.prototype.toggleMinimize = function(){
 };
 
 Scrubber.prototype.drawInnerCircle = function(){
-	console.log('CIRCLE',this.config)
 	
 	var background = this.paper.image(this.config.innerCircleBackground, this.config.trackWidth + 17, this.config.trackWidth + 17, this.config.canvasWidth / 2 - 15, this.config.canvasHeight / 2 - 15);
 	// track.node.setAttribute("class", "dropshadow");
@@ -152,8 +152,6 @@ Scrubber.prototype.drawTrack = function(){
 
     this.track.node.id = "track";
     
-    console.log(this.track)
-
 	// track.node.setAttribute("class", "dropshadow");
 };
 
@@ -275,7 +273,7 @@ Scrubber.prototype.trackVelocity = function(x, y){
 	this.lastX = x;
 	this.lastTime = t;
 	this.velocity = velocity < 0 ? Math.floor(-velocity * 100) : Math.floor(velocity * 100);
-	console.log(velocity)
+
 	//FOR DEMO ~~~~~~~~~~~~~~~~~~
 	$('#velocity').text(this.velocity);
 	return velocity;
