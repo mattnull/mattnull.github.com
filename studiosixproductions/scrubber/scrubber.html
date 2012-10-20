@@ -43,8 +43,8 @@
 	    });
 
 		//DUMMY DATA~~~~~~~~~~~~~~~~~
-		var val1 = 45;
-		var val2 = 90;
+		var val1 = 45; //degrees
+		var val2 = 90; //degrees
 		var interval;
 
 		var dummyInterval = function(){
@@ -57,8 +57,8 @@
 					return;
 				}
 
-				scrubber.drawReadBar(val1, 200, 'slide')
-				scrubber.drawUnreadBar(val2, 200, 'slide');
+				scrubber.drawReadBar(val1)
+				scrubber.drawUnreadBar(val2);
 				
 			}, 3000);
 		}
