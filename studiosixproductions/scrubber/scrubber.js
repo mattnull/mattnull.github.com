@@ -94,8 +94,8 @@ Scrubber.prototype.attachEvents = function(){
     	};
 
 		this.track.touchmove(handleTouchMove);
-		this.readBar.touchmove(handleTouchMove);
-		this.unreadBar.touchmove(handleTouchMove);
+		// this.readBar.touchmove(handleTouchMove);
+		// this.unreadBar.touchmove(handleTouchMove);
 
 		$(document).on('touchstart', this.selector + ' text', function(){
 			self.toggleMinimize();
@@ -188,7 +188,7 @@ Scrubber.prototype.drawReadBar = function(angle, duration, effect){
 		});
    }
    	
-}
+};
 
 Scrubber.prototype.drawUnreadBar = function(angle, duration, effect){
 	effect = effect || 'slide';
