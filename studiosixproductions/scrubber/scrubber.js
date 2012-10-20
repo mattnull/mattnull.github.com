@@ -83,36 +83,40 @@ Scrubber.prototype.attachEvents = function(){
 	var self = this;
 
    // if(this.isTouchDevice()){
-  //   	var handleTouchMove = function(e){
-		//     var touch = e.touches[0];
-		//    console.log(touch)
-		//     var x = touch.pageX;
-		//     var y = touch.pageY;
-		//     console.log(x,y)
-		//     self.scrub(x, y);
-		//     self.trackVelocity(x, y);
-  //   	};
+    	var handleTouchMove = function(e){
+		    var touch = e.touches[0];
+		   console.log(touch)
+		    var x = touch.pageX;
+		    var y = touch.pageY;
+		    console.log(x,y)
+		    self.scrub(x, y);
+		    self.trackVelocity(x, y);
+    	};
 
-		// this.track.touchmove(handleTouchMove);
-		// this.readBar.touchmove(handleTouchMove);
-		// this.unreadBar.touchmove(handleTouchMove);
+		this.track.touchmove(handleTouchMove);
+		this.readBar.touchmove(handleTouchMove);
+		this.unreadBar.touchmove(handleTouchMove);
+
+		this.track.touchstart(handleTouchMove);
+		this.readBar.touchstart(handleTouchMove);
+		this.unreadBar.touchstart(handleTouchMove);
 
 		// $(document).on('touchstart', this.selector + ' text', function(){
 		// 	self.toggleMinimize();
 		// });
 	// }
 	// else{
-		var handleDrag = function(dx, dy, x, y, e){
-		   	self.scrub(x, y);
-		    self.trackVelocity(x, y);
-		};
+		// var handleDrag = function(dx, dy, x, y, e){
+		//    	self.scrub(x, y);
+		//     self.trackVelocity(x, y);
+		// };
 
-		//set the drag event for each path object
-		this.paper.set(this.track, this.unreadBar, this.readBar).drag(handleDrag);
+		// //set the drag event for each path object
+		// this.paper.set(this.track, this.unreadBar, this.readBar).drag(handleDrag);
 
-		$(document).on('click',this.selector + ' text',function(){
-			self.toggleMinimize();
-		});
+		// $(document).on('click',this.selector + ' text',function(){
+		// 	self.toggleMinimize();
+		// });
 	// }
 };
 
