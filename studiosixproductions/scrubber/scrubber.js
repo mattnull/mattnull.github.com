@@ -84,11 +84,11 @@ Scrubber.prototype.attachEvents = function(){
 
    // if(this.isTouchDevice()){
     	var handleTouchMove = function(e){
-    		e.preventDefault();
 		    var touch = e.touches[0];
 		   
 		    var x = touch.clientX;
 		    var y = touch.clientY;
+		    console.log(x,y)
 		    self.scrub(x, y);
 		    self.trackVelocity(x, y);
     	};
