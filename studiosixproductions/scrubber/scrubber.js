@@ -82,7 +82,7 @@ var Scrubber = function(params){
 Scrubber.prototype.attachEvents = function(){
 	var self = this;
 
-    if(this.isTouchDevice()){
+   // if(this.isTouchDevice()){
     	var handleTouchMove = function(e){
     		e.preventDefault();
 		    var touch = e.touches[0];
@@ -100,20 +100,20 @@ Scrubber.prototype.attachEvents = function(){
 		$(document).on('touchstart', this.selector + ' text', function(){
 			self.toggleMinimize();
 		});
-	}
-	else{
-		var handleDrag = function(dx, dy, x, y, e){
-		   	self.scrub(x, y);
-		    self.trackVelocity(x, y);
-		};
+	// }
+	// else{
+	// 	var handleDrag = function(dx, dy, x, y, e){
+	// 	   	self.scrub(x, y);
+	// 	    self.trackVelocity(x, y);
+	// 	};
 
-		//set the drag event for each path object
-		this.paper.set(this.track, this.unreadBar, this.readBar).drag(handleDrag);
+	// 	//set the drag event for each path object
+	// 	this.paper.set(this.track, this.unreadBar, this.readBar).drag(handleDrag);
 
-		$(document).on('click',this.selector + ' text',function(){
-			self.toggleMinimize();
-		});
-	}
+	// 	$(document).on('click',this.selector + ' text',function(){
+	// 		self.toggleMinimize();
+	// 	});
+	// }
 };
 
 Scrubber.prototype.toggleMinimize = function(){
