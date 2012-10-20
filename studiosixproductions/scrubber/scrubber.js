@@ -92,9 +92,9 @@ Scrubber.prototype.attachEvents = function(){
 		    self.trackVelocity(x, y);
     	};
 
-		document.getElementById('track').addEventListener('touchmove', handleTouchMove, false);
-		document.getElementById('read').addEventListener('touchmove', handleTouchMove, false);
-		document.getElementById('unread').addEventListener('touchmove', handleTouchMove, false);
+		this.track.touchmove(handleTouchMove);
+		this.read.touchmove(handleTouchMove);
+		this.unread.touchmove(handleTouchMove);
 
 		$(document).on('touchstart', this.selector + ' text', function(){
 			self.toggleMinimize();
