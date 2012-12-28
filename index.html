@@ -1,29 +1,63 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<link rel="stylesheet" href="css/style.css" />
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 	<style>
-	body, h1 {
-	   font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
-	   font-weight: 300;
-	   padding:0;
-	   margin:0;
-	   line-height: 1.3em;
+	#whatismattnull{
+		color:#04BCEA;
+		text-shadow:1px 1px 1px #333;
 	}
-	::selection{background:#85BED5; color:#fff;}
-	a{color:#000;-webkit-transition:all 0.2s ease-in-out;}
-	a:hover{color:#85BED5;}
+	#whatismattnull.falloff{
+
+	}
+
 	</style>
 </head>
-<body> 
-	<h1>Matt Null</h1>
-	<ul>
-		<li><a href="http://github.com/mattnull" target="_blank">GitHub</a></li>
-		<li><a href="http://linkedin.com/in/mattnull" target="_blank">LinkedIn</a></li>
-	</ul>
-	<h1>Recent Projects</h1>
-	<ul>
-		<li><a href="http://techsavvy.io" target="_blank">TechSavvy</a></li>
-		<li><a href="http://howmanyhackers.com" target="_blank">The How Many Hackers Project</a></li>
-	</ul>
+<body>
+	<div id="wrapper">
+<!-- 		<img src="http://gravatar.com/avatar/2acd34ff09dab9688c6bd8365786d140?s=80" />
+ -->	<div id="header">Matt Null<br/> is<br/> <span id="whatismattnull"></span></div>
+	</div>
+	<script>
+	$(function(){
+		var cont = $('#whatismattnull'),
+		header = $('#header'),
+		roles = [
+			'a Programmer',
+			'a Coder',
+			'a Hacker',
+			'a Creator',
+			'an Inventor',
+			'a Web Developer',
+			'a Technologist',
+			'an Indie Web Developer',
+			'a Developer',
+			'a JavaScript Ninja'
+		],
+		len = roles.length;
+
+		var done = function(){
+			header.addClass('left');
+		};
+
+		var reel = function(){ console.log('reel')
+			var i = 0;
+			var interval = setInterval(function(){ console.log('int', i, len)
+				if(i < len){
+					cont[0].innerHTML = roles[Math.floor(Math.random() * len)];
+				}
+				else if(i == len){
+					clearInterval(interval);
+					setTimeout(done, 1000);
+					return;
+				}
+				i++;
+			}, 100);
+		};
+
+		reel();
+	});
+	</script>
 </body>
 </html>

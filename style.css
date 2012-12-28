@@ -1,0 +1,12 @@
+@font-face { font-family: Numans; src: url('../fonts/numans/Numans-Regular.otf'); } 
+body, h1 {
+	font-family: "Numans";
+   /*font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; */
+   font-weight: 300;
+   padding:0;
+   margin:0;
+   line-height: 1.3em;
+}
+::selection{background:#85BED5; color:#fff;}
+a{color:#000;-webkit-transition:all 0.2s ease-in-out;}
+a:hover{color:#85BED5;}

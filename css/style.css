@@ -1,0 +1,33 @@
+@font-face { 
+	font-family: "Numans"; 
+	src: url('../fonts/Numans/Numans-Regular.otf'); 
+	font-family: "Tiresias"; 
+	src: url('../fonts/Tiresias/Tiresias_Infofont.ttf');
+	font-family: "Familiar"; 
+	src: url('../fonts/Familiar/Familiar_Pro-Bold.otf');
+}
+body, h1 {
+   font-family: "Familiar", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+  /* font-weight: 300;*/
+   padding:0;
+   margin:0;
+}
+#header{
+	font-size: 7em;
+	font-weight: 200;
+	font-weight: lighter;
+	width:700px;
+	margin:0 auto;
+	text-align: center;
+	left:50%;
+	-webkit-transition:all 0.5s ease-in-out;
+}
+#header.left{
+	position: absolute;
+	left:0;
+	font-size: 2em;
+	width:200px;
+}
+::selection{background:#85BED5; color:#fff;}
+a{color:#000;-webkit-transition:all 0.2s ease-in-out;}
+a:hover{color:#85BED5;}
