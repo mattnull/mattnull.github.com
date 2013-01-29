@@ -4,60 +4,37 @@
 	<link rel="stylesheet" href="css/style.css" />
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 	<style>
-	#whatismattnull{
-		color:#04BCEA;
-		text-shadow:1px 1px 1px #333;
+	body, h1,h2{
+		font-family:'HelveticaNeue-UltraLight', Helvetica;
+		font-weight:300;
 	}
-	#whatismattnull.falloff{
+	body{
+		background: url('me.png') 0 0 no-repeat;
+		background-size: 70%;
+		background-color: #efece7;
+		background-position: center 0;
 
 	}
-
+	h1,h2{
+		font-size:2em;
+		text-transform: uppercase
+	}
+	#wrapper{
+		padding:30px;
+		margin-top:8%;
+	}
 	</style>
 </head>
 <body>
 	<div id="wrapper">
-<!-- 		<img src="http://gravatar.com/avatar/2acd34ff09dab9688c6bd8365786d140?s=80" />
- -->	<div id="header">Matt Null<br/> is<br/> <span id="whatismattnull"></span></div>
+		<div id="text">
+			<h1>Matt Null --></h1>
+			<h2>Web Developer.</h2>
+			<h2>Technologist.</h2>
+			<h2>entrepreneur.</h2>
+			<a href="http://github.com/mattnull" target="_blank">github</a> / <a href="http://linkedin.com/in/mattnull" target="_blank">linkedin</a> / <a href="http://twitter.com/nullempire" target="_blank">@nullempire</a>
+		</div>
 	</div>
-	<script>
-	$(function(){
-		var cont = $('#whatismattnull'),
-		header = $('#header'),
-		roles = [
-			'a Programmer',
-			'a Coder',
-			'a Hacker',
-			'a Creator',
-			'an Inventor',
-			'a Web Developer',
-			'a Technologist',
-			'an Indie Web Developer',
-			'a Developer',
-			'a JavaScript Ninja'
-		],
-		len = roles.length;
 
-		var done = function(){
-			header.addClass('left');
-		};
-
-		var reel = function(){ console.log('reel')
-			var i = 0;
-			var interval = setInterval(function(){ console.log('int', i, len)
-				if(i < len){
-					cont[0].innerHTML = roles[Math.floor(Math.random() * len)];
-				}
-				else if(i == len){
-					clearInterval(interval);
-					setTimeout(done, 1000);
-					return;
-				}
-				i++;
-			}, 100);
-		};
-
-		reel();
-	});
-	</script>
 </body>
 </html>
