@@ -49,16 +49,16 @@ a:hover{color:#85BED5;}
 	padding:30px;
 	margin-top:6%;
 }
-
-@media (max-width: 1500px){
-	#wrapper{
-		margin-top:4%;
+@media (max-width : 1824px) {
+/* Styles */
+#wrapper{
+		margin-top:2%;
 	}
 	#info ul{
-		font-size:3em;
+		font-size:3.5em;
 	}
 }
-@media (max-width: 1400px){
+@media (max-width : 1224px) {
 	#wrapper{
 		margin-top:2%;
 	}
@@ -67,7 +67,7 @@ a:hover{color:#85BED5;}
 	}
 }
 
-@media (max-width: 480px){
+@media (max-width: 768px){
 	#wrapper{
 		margin-top:30%;
 	}
