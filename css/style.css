@@ -33,6 +33,8 @@ a:hover{color:#85BED5;}
 	text-transform: uppercase;
 	text-align:center;
 	color:#85BED5;
+	width: 100%;
+	margin: 0 auto;
 }
 #info ul{
 	font-size:6em;
@@ -46,4 +48,33 @@ a:hover{color:#85BED5;}
 #wrapper{
 	padding:30px;
 	margin-top:6%;
+}
+
+@media (max-width: 1500px){
+	#wrapper{
+		margin-top:4%;
+	}
+	#info ul{
+		font-size:3em;
+	}
+}
+@media (max-width: 1400px){
+	#wrapper{
+		margin-top:2%;
+	}
+	#info ul{
+		font-size:2em;
+	}
+}
+
+@media (max-width: 480px){
+	#wrapper{
+		margin-top:30%;
+	}
+	#info ul{
+		font-size:2.5em;
+	}
+	a{
+		color:#333;
+	}
 }
