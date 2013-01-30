@@ -41,7 +41,9 @@ a:hover{color:#85BED5;}
 #info ul{
 	font-size:4em;
 }
-
+#info .links{
+	font-size:1.6em;
+}
 #wrapper{
 	padding:30px;
 	margin-top:4%;
@@ -51,7 +53,7 @@ a:hover{color:#85BED5;}
 		background-size: 70%;
 	}
 	#wrapper{
-		margin-top:5%;
+		margin-top:3%;
 	}
 	#info ul{
 		font-size:3em;
@@ -67,13 +69,13 @@ a:hover{color:#85BED5;}
 }*/
 @media (max-width: 1024px){
 	body{
-		background-size:100%;
+		background-size:70%;
 	}
 	#wrapper{
-		margin-top:5%;
+		margin-top:2%;
 	}
 	#info ul{
-		font-size:3em;
+		font-size:2.5em;
 	}
 	a{
 		color:#fff;
@@ -110,23 +112,7 @@ a:hover{color:#85BED5;}
 	}
 	a{
 		color:#333;
-		font-size:1.7em;
+		font-size:1em;
 		margin:0 5px;
-	}
-}
-
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) { 
-    /* Retina-specific stuff here */
-    body{
-		background-size:cover;
-	}
-	#wrapper{
-		margin-top:50%;
-	}
-	#info ul{
-		font-size:4em;
-	}
-	a{
-		color:#333;
 	}
 }
