@@ -63,6 +63,21 @@ a:hover{color:#85BED5;}
 		font-size:6em;
 	}
 }*/
+@media (max-width: 1024px){
+	body{
+		background-size:100%;
+	}
+	#wrapper{
+		margin-top:50%;
+	}
+	#info ul{
+		font-size:3em;
+	}
+	a{
+		color:#333;
+	}
+}
+
 
 @media (max-width: 768px){
 	body{
