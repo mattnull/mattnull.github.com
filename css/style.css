@@ -114,7 +114,7 @@ a:hover{color:#85BED5;}
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) { 
     /* Retina-specific stuff here */
     body{
-		background-size:100%;
+		background-size:cover;
 	}
 	#wrapper{
 		margin-top:50%;
