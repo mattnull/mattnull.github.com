@@ -59,23 +59,23 @@ a:hover{color:#85BED5;}
 		font-size:3em;
 	}
 }
-/*@media (max-width : 1224px) {
+@media (max-width : 1224px) {
 	#wrapper{
-		margin-top:5%;
+		margin-top:2%;
 	}
 	#info ul{
-		font-size:6em;
+		font-size:2em;
 	}
-}*/
+}
 @media (max-width: 1024px){
 	body{
-		background-size:70%;
+		background-size:90%;
 	}
 	#wrapper{
 		margin-top:2%;
 	}
 	#info ul{
-		font-size:2.5em;
+		font-size:2em;
 	}
 	a{
 		color:#fff;
@@ -91,7 +91,7 @@ a:hover{color:#85BED5;}
 		margin-top:50%;
 	}
 	#info ul{
-		font-size:3em;
+		font-size:2.5em;
 	}
 	a{
 		color:#333;
