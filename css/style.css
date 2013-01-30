@@ -28,7 +28,9 @@ ul li{
 }
 a{text-transform:lowercase;color:#fff;text-decoration:none;-webkit-transition:all 0.2s ease-in-out;}
 a:hover{color:#85BED5;}
-
+*{
+	-webkit-transition:all 0.3s ease-in-out;
+}
 #info{
 	text-transform: uppercase;
 	text-align:center;
