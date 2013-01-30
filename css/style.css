@@ -108,3 +108,19 @@ a:hover{color:#85BED5;}
 		color:#333;
 	}
 }
+
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) { 
+    /* Retina-specific stuff here */
+    body{
+		background-size:100%;
+	}
+	#wrapper{
+		margin-top:50%;
+	}
+	#info ul{
+		font-size:2em;
+	}
+	a{
+		color:#333;
+	}
+}
