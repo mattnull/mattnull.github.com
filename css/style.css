@@ -72,6 +72,21 @@ a:hover{color:#85BED5;}
 		margin-top:50%;
 	}
 	#info ul{
+		font-size:3em;
+	}
+	a{
+		color:#333;
+	}
+}
+
+@media (max-width: 480px){
+	body{
+		background-size:100%;
+	}
+	#wrapper{
+		margin-top:50%;
+	}
+	#info ul{
 		font-size:2em;
 	}
 	a{
