@@ -12,6 +12,7 @@ body{
 	padding:0;
 	margin:0;
 	background: url('../me.png') 0 0 no-repeat;
+	background-attachment: fixed;
 	background-size: 70%;
 	background-color: #efece7;
 	background-position: center 0;
@@ -28,11 +29,17 @@ ul li{
 a{text-transform:lowercase;color:#000;text-decoration:none;-webkit-transition:all 0.2s ease-in-out;}
 a:hover{color:#85BED5;}
 
-#text{
+#info{
 	text-transform: uppercase
 }
-#text ul{
+#info ul{
 	font-size:2em;
+}
+#phrase{
+	font-family:Georgia;
+	font-style:italic;
+	font-size:3em;
+	color:#fff;
 }
 #wrapper{
 	padding:30px;
