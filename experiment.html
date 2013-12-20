@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<style>
+		body{
+			padding:0;
+			margin:0;
+			overflow:hidden;
+			font-family: "Helvetica-Neue-Ultralite", "Helvetica";
+			font-weight:200;
+		}
+		a{
+			color:rgba(82,176,223,1);
+			font-weight:200;
+			text-decoration: none;
+			-webkit-transition:all 1s;
+		}
+		a:hover{
+			color:#fff;
+		}
+		::selection{
+			background:#333;
+			color:#fff;
+		}
+		.tabs{
+			position: absolute;
+			top:20px;
+			right:0px;
+			z-index:2;
+
+		}
+		.tab{
+
+			text-align: right;
+			font-size: 5em;
+			color: rgba(255,255,255,1);
+			background: rgba(0,0,0,0.5);
+			margin: 20px 0;
+			padding: 5px;
+			-webkit-transform: rotateY(90deg);
+			-webkit-perspective: 1000px;
+			-webkit-transform-origin: 100% 100%;
+			-webkit-transform-style: preserve-3d;
+			-webkit-transition:-webkit-transform 2s;
+		}
+		.tab a{
+			font-style:italic;
+		}
+		.show{
+			-webkit-transform: rotateY(0deg);
+		}
+		video{
+			z-index:1;
+			-webkit-transition: -webkit-filter 1.5s; 
+			width:105%;
+			height:105%;
+			cursor:pointer;
+			/*position: absolute;*/
+			min-height:100%;
+			min-width:100%;
+			top:0;
+			right:0;
+			bottom:0;
+			left:0;
+		}
+		/** TO DO ADD MEDIA QUERIES FOR VIDEO RESIZE **/
+		</style>
+	</head>
+	<body>
+	<div class="tabs">
+		<div class="tab tab1">Matt Null</div>
+		<div class="tab tab2"><a href="http://github.com/mattnull" target="_blank">GitHub</a></div>
+		<div class="tab tab3"><a href="http://linkedin.com/in/mattnull" target="_blank">LinkedIn</a></div>
+		<div class="tab tab4"><a href="http://twitter.com/nulluniverse" target="_blank">@nulluniverse</a></div>
+	</div>
+
+
+<video autoplay loop muted class="video-stream html5-main-video" x-webkit-airplay="allow" data-youtube-id="d1PP7CbY52A" src="http://r20---sn-q4f7dm76.c.youtube.com/videoplayback?ipbits=8&amp;itag=43&amp;ip=24.28.85.193&amp;key=yt1&amp;newshard=yes&amp;ratebypass=yes&amp;ms=au&amp;source=youtube&amp;cp=U0hVR1lUVV9HU0NONV9RTllEOmJ1ZVBqZHpwWmpS&amp;mv=m&amp;sver=3&amp;id=7753cfec26d8e760&amp;expire=1362997329&amp;fexp=914079%2C922912%2C920704%2C912806%2C902000%2C919512%2C929901%2C913605%2C925006%2C906938%2C931202%2C931401%2C908529%2C930807%2C930803%2C920201%2C930101%2C930603%2C906834&amp;sparams=cp%2Cid%2Cip%2Cipbits%2Citag%2Cratebypass%2Csource%2Cupn%2Cexpire&amp;mt=1362973631&amp;upn=PgnmIY4TyIU&amp;cpn=M80jDDyJrgb8tZZm&amp;signature=2630C14AD3CA4A70F64F726920FCE8B1B8FF99B7.41DAE0B44C7ACDCDA557829E64615FA73E17C846"></video>
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script>
+$(function(){
+	var hasFilter = true
+	var filter = 'grayscale(100%) blur(14px)'
+	// var filter = 'hue-rotate(80deg) grayscale(70%) blur(14px) sepia(30%) contrast(134%)';
+	$('video').css('-webkit-filter', filter);
+	$('video').on('click',function(){
+		var el = $(this)
+		if(hasFilter){
+			$(this).css('-webkit-filter','none');
+			hasFilter = false;
+		}
+		else{
+			$('video').css('-webkit-filter', filter);
+			hasFilter = true;
+		}
+	});
+
+	$(window).resize(function(){
+		$('video').height('100%')
+	});
+
+	$('.tab1').addClass('show');
+
+	setTimeout(function(){
+		$('.tab2').addClass('show')
+	},1000)
+	setTimeout(function(){
+		$('.tab3').addClass('show')
+	},2000)
+	setTimeout(function(){
+		$('.tab4').addClass('show')
+	},2500)
+});
+</script>
+</body>
+</html>

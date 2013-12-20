@@ -1,125 +1,52 @@
-@font-face { 
-	font-family: "Numans"; 
-	src: url('../fonts/Numans/Numans-Regular.otf'); 
-	font-family: "Tiresias"; 
-	src: url('../fonts/Tiresias/Tiresias_Infofont.ttf');
-	font-family: "Familiar"; 
-	src: url('../fonts/Familiar/Familiar_Pro-Bold.otf');
-}
 body{
 	font-family:'HelveticaNeue-UltraLight', Helvetica;
 	font-weight:300;
 	padding:0;
 	margin:0;
-	background: url('../images/me.png') 0 0 no-repeat;
-	background-attachment: fixed;
-	background-size: 50%;
+	background: url('../images/me-adjusted.png') 0 0 no-repeat;
+	background-size: 100%;
 	background-color: #efece7;
-	background-position: center 0;
+	background-position: 0px 0;
+	background-attachment: fixed
 }
-::selection{background:#85BED5; color:#fff;}
-ul{
-	margin:0;
-	padding:0;
-	list-style:none;
+::selection {
+	background:#85BED5; 
+	color:#fff;
 }
-ul li{
-	margin:20px 0;
+
+a {
+	text-transform:lowercase;
+	text-decoration:none;
+	-webkit-transition:color 0.3s ease-in-out;
+	color:rgba(142,150,161,1);;
 }
-a{text-transform:lowercase;color:#fff;text-decoration:none;-webkit-transition:all 0.2s ease-in-out;}
-a:hover{color:#85BED5;}
-*{
-	-webkit-transition:all 0.3s ease-in-out;
-}
+
+
 #info{
 	text-transform: uppercase;
-	text-align:center;
-	color:#85BED5;
+	text-align: center;
+	color: rgba(142,150,161,1);
 	width: 100%;
 	margin: 0 auto;
+	font-size: 2.7em;
+	font-weight:lighter;
 }
-#info ul{
-	font-size:4em;
+#info a {
+	font-size:1em;
+	color:rgba(142,150,161,1);
 }
-#info .links{
-	font-size:1.6em;
-}
-#wrapper{
-	padding:30px;
-	margin-top:4%;
+#info a:hover {
+	color:#fff
 }
 
-#ent{
-	position: absolute;
-	bottom:5px;
-	right:5px;
-	width:120px;
-}
-@media (max-width : 1824px) {
-	body{
-		background-size: 70%;
-	}
-	#wrapper{
-		margin-top:3%;
-	}
-	#info ul{
-		font-size:3em;
-	}
-}
-@media (max-width : 1224px) {
-	#wrapper{
-		margin-top:2%;
-	}
-	#info ul{
-		font-size:2em;
-	}
-}
-@media (max-width: 1024px){
-	body{
-		background-size:90%;
-	}
-	#wrapper{
-		margin-top:2%;
-	}
-	#info ul{
-		font-size:2em;
-	}
-	a{
-		color:#fff;
+@media (min-width: 768px) {
+	#info {
+		font-size:4em;
 	}
 }
 
-
-@media (max-width: 768px){
-	body{
-		background-size:100%;
-	}
-	#wrapper{
-		margin-top:50%;
-	}
-	#info ul{
-		font-size:2.5em;
-	}
-	a{
-		color:#333;
-		font-size:1.7em;
-		margin:0 5px;
-	}
-}
-
-@media (max-width: 480px){
-	body{
-		background-size:100%;
-	}
-	#wrapper{
-		margin-top:50%;
-	}
-	#info ul{
-		font-size:2em;
-	}
-	a{
-		color:#333;
-		font-size:1em;
-		margin:0 5px;
+@media (min-width: 992px) {
+	#info {
+		font-size:5em;
 	}
 }
