@@ -1,7 +1,60 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<link rel="stylesheet" href="public/css/style.css" />
+<style>
+body{
+	font-family:'HelveticaNeue-UltraLight', Helvetica;
+	font-weight:300;
+	padding:0;
+	margin:0;
+	background: url('../images/me-adjusted.png') 0 0 no-repeat;
+	background-size: 100%;
+	background-color: #efece7;
+	background-position: 0px 0;
+	background-attachment: fixed
+}
+::selection {
+	background:#85BED5; 
+	color:#fff;
+}
+
+a {
+	text-transform:lowercase;
+	text-decoration:none;
+	-webkit-transition:color 0.3s ease-in-out;
+	color:rgba(142,150,161,1);;
+}
+
+
+#info{
+	text-transform: uppercase;
+	text-align: center;
+	color: rgba(142,150,161,1);
+	width: 100%;
+	margin: 0 auto;
+	font-size: 2.7em;
+	font-weight:lighter;
+}
+#info a {
+	font-size:1em;
+	color:rgba(142,150,161,1);
+}
+#info a:hover {
+	color:#fff
+}
+
+@media (min-width: 768px) {
+	#info {
+		font-size:4em;
+	}
+}
+
+@media (min-width: 992px) {
+	#info {
+		font-size:5em;
+	}
+}
+</style>
 	</head>
 	<body>
 		<div id="info" class="container">
